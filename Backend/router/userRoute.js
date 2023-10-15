@@ -8,7 +8,7 @@ const router = express.Router()
 router.get('/user',verifyToken, getUser)
 .post('/user', createUser)
 .post('/login', login)
-.post('/token', refreshToken)
+.get('/token', refreshToken)
 .post('/logout', refreshToken)
 
 module.exports = router

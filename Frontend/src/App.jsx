@@ -1,31 +1,34 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useEffect, useState } from "react";
 import "./App.css";
-import { redirect } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function App() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   
-  async function login() {
-    const payload = { email, password };
-    const res = await fetch("http://localhost:5000/login", {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    if(res.status == 200){
-      console.log(res.status)
-      return navigate("/users", {replace: true})
-    }
-  }
+  const navigate = useNavigate();
 
-  return (
-    <>
-      <div id="loginContainer">
+  function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    async function login() {
+      const payload = { email, password };
+      const res = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", },
+        body: JSON.stringify(payload),
+        credentials : 'include',
+      });
+      const data = await res.json();
+      if (res.status == 200) {
+        console.log(res.status);
+        return navigate("/users", { replace: true, state: {token: data.token} },);
+      }
+    }
+
+    return (
+      <>
+        <p style={{ fontWeight: "bold", fontSize: "26px" }}>
+          Login To Your Account
+        </p>
         <div id="inputContainer">
           <label id="inputLabel" htmlFor="">
             Email or Username
@@ -50,10 +53,12 @@ function App() {
           >
             Login
           </button>
+          <a href="/register">Don't have an account? Register</a>
         </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  }
+  return <div id="loginContainer"><Login /></div>;
 }
 
 export default App;

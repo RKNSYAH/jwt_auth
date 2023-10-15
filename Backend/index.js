@@ -7,7 +7,11 @@ const cors = require('cors')
 require('dotenv').config()
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:5173',
+    methods: ['POST', 'PUT', 'GET', 'OPTIONS', 'HEAD'],
+    credentials: true
+  }))
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
 app.use(router)

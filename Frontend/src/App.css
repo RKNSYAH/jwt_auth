@@ -3,6 +3,10 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 #loginContainer{
@@ -13,7 +17,14 @@
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.45);
+  transition: height 0.5s ease-in-out;
 }
+
+#loginContainer.closing {
+  height: 0;
+}
+
+
 .loginInput {
   margin-top: 10px;
   margin-bottom: 30px;

@@ -6,6 +6,7 @@ function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPass] = useState("");
+    const [errorMsg, setErrorMsg] = useState({});
 
     const navigate = useNavigate();
 
@@ -17,15 +18,20 @@ function Register() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
+        const data = await res.json();
+        console.log(res.status)
         if(res.status == 200){
-          console.log(res.status)
           return navigate("/", {replace: true})
+        }
+        if(res.status == 406){
+          setErrorMsg(data)
         }
       }
 
   return (
     <>
       <div id="loginContainer">
+        <p style={{fontWeight: 'bold', fontSize: '26px'}}>Create An Account</p>
         <div id="inputContainer">
           <label id="inputLabel" htmlFor="">
             Name
@@ -59,6 +65,7 @@ function Register() {
             type="password"
             onChange={(e) => setConfirmPass(e.target.value)}
           ></input>
+          <p style={{color: "red", margin: 0}}>{errorMsg.msg}</p> 
           <button
             className="loginInput"
             id="loginButton"
@@ -66,6 +73,7 @@ function Register() {
           >
             Register
           </button>
+          <a href="/">Have an account? Login</a>
         </div>
       </div>
     </>
